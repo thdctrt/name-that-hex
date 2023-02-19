@@ -3,28 +3,29 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
+const ColorBlock = styled.div`
+background: ${typeof window !== "undefined"
+  ? localStorage.getItem("hex-hex")
+  : "transparent"};
+`;
+
+const Button = styled.button`
+.visible {
+  visibility: visible;
+}
+.hidden {
+  visibility: hidden;
+}
+`
+
 const HEXInput: React.FC = () => {
   const [value, setValue] = React.useState<string>(`${typeof window !== "undefined" && localStorage.getItem("hex-hex") ? localStorage.getItem("hex-hex") : ""}`);
   // const [value, setValue] = React.useState<string>("");
   const [prompt, setPrompt] = React.useState<string>("");
   const [color, setColor] = React.useState<string>("");
   // const [colorBlock, setColorBlock] = React.useState();
-  const [isActive, setActive] = useState("false");
+  // const [isActive, setActive] = useState("false");
 
-  const ColorBlock = styled.div`
-    background: ${typeof window !== "undefined"
-      ? localStorage.getItem("hex-hex")
-      : "transparent"};
-  `;
-
-  const Button = styled.button`
-    .visible {
-      visibility: visible;
-    }
-    .hidden {
-      visibility: hidden;
-    }
-  `
 
   const handleInput = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +109,7 @@ const HEXInput: React.FC = () => {
             aria-label="Enter your HEX"
             onChange={handleInput}
             onKeyDown={handleKeyDown}
-            onBlur={setActive(!isActive)}
+            // onBlur={setActive(!isActive)}
             type="text"
             name="description"
             // placeholder="Enter your color HEX"
@@ -117,7 +118,9 @@ const HEXInput: React.FC = () => {
           />
         </div>
         {color ? 
-        <Button onClick={handleClick} className={isActive ? "visible" : "hidden"}>
+        <Button onClick={handleClick}
+        // className={isActive ? "visible" : "hidden"}
+        >
           {!color ? "Find" : "Find again"}
         </Button>
           : null  

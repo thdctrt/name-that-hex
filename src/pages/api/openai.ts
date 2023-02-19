@@ -12,7 +12,8 @@ export default async function handler(
 ) {
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: `name for the color #${req.body.text} in camel case`,
+    // model: "text-curie-001",
+    prompt: `name for the color ${req.body.text} in camel case`,
     temperature: 0.7,
     max_tokens: 256,
     top_p: 1,
@@ -20,6 +21,8 @@ export default async function handler(
     presence_penalty: 0,
   });
 
-//   console.log(req.body.text);
+  console.log(req.body.text);
   res.status(200).json({ result: response.data });
+  // res.status(200).json({ name: 'John Doe' })
+
 }
