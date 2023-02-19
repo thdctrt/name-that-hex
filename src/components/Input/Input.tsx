@@ -3,10 +3,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
-const ColorBlock = styled.div`
-background: ${typeof window !== "undefined"
-  ? localStorage.getItem("hex-hex")
-  : "transparent"};
+var ColorBlockColor: string | null;
+
+const ColorBlock = styled.div<{blockColor: string | null}>`
+background: ${props => props.blockColor || "palevioletred"};
 `;
 
 const Button = styled.button`
@@ -16,15 +16,12 @@ const Button = styled.button`
 .hidden {
   visibility: hidden;
 }
-`
+`;
 
 const HEXInput: React.FC = () => {
   const [value, setValue] = React.useState<string>(`${typeof window !== "undefined" && localStorage.getItem("hex-hex") ? localStorage.getItem("hex-hex") : ""}`);
-  // const [value, setValue] = React.useState<string>("");
   const [prompt, setPrompt] = React.useState<string>("");
   const [color, setColor] = React.useState<string>("");
-  // const [colorBlock, setColorBlock] = React.useState();
-  // const [isActive, setActive] = useState("false");
 
 
   const handleInput = React.useCallback(
@@ -51,60 +48,68 @@ const HEXInput: React.FC = () => {
         });
         const data = await response.json();
         setColor(`${data.result.choices[0].text}`);
+
       }
     },
     [value]
   );
 
-  const handleClick = useCallback(async () => {
-    if (localStorage.getItem("hex-hex")) {
-      //scenario 1 - value in local storage
-      let value = localStorage.getItem("hex-hex");
-      setPrompt(value);
-      console.log("got " + value + " from local storage");
-      setColor("Loading...");
-      const response = await fetch("/api/openai", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: value }),
-      });
-      const data = await response.json();
-      setColor(`${data.result.choices[0].text}`);
-      // setColorBlock(value);
-      //end scenario 1
+  useEffect(() => {
+    typeof window !== "undefined" 
+      ? ColorBlockColor = localStorage.getItem("hex-hex")
+      : ColorBlockColor = "transparent"
+    });
+     
 
-      //scenario 2 - no local storage but value in input
-    } else if (value && localStorage.getItem("hex-hex")) {
-      localStorage.setItem("hex-hex", value);
-      console.log('dealed with that shit');
-    //scenario 2.5
-    } else if (value) {
-      localStorage.setItem("hex-hex", value);
-      setPrompt(value);
-      console.log(value);
-      setColor("Loading...");
-      const response = await fetch("/api/openai", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: value }),
-      });
-      const data = await response.json();
-      setColor(`${data.result.choices[0].text}`);
-      //end scenario 2
-      //scenario 3 — input not filled
-    } else {
-      alert("no value");
-    }
-  }, []);
+  // const handleClick = useCallback(async () => {
+  //   if (localStorage.getItem("hex-hex")) {
+  //     //scenario 1 - value in local storage
+  //     let value = localStorage.getItem("hex-hex");
+  //     setPrompt(value);
+  //     console.log("got " + value + " from local storage");
+  //     setColor("Loading...");
+  //     const response = await fetch("/api/openai", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ text: value }),
+  //     });
+  //     const data = await response.json();
+  //     setColor(`${data.result.choices[0].text}`);
+  //     // setColorBlock(value);
+  //     //end scenario 1
+
+  //     //scenario 2 - no local storage but value in input
+  //   } else if (value && localStorage.getItem("hex-hex")) {
+  //     localStorage.setItem("hex-hex", value);
+  //     console.log('dealed with that shit');
+  //   //scenario 2.5
+  //   } else if (value) {
+  //     localStorage.setItem("hex-hex", value);
+  //     setPrompt(value);
+  //     console.log(value);
+  //     setColor("Loading...");
+  //     const response = await fetch("/api/openai", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ text: value }),
+  //     });
+  //     const data = await response.json();
+  //     setColor(`${data.result.choices[0].text}`);
+  //     //end scenario 2
+  //     //scenario 3 — input not filled
+  //   } else {
+  //     alert("no value");
+  //   }
+  // }, []);
 
   return (
     <>
       <div>
-        <div className="mt-1 relative flex items-center">
+        <div>
           <input
             aria-label="Enter your HEX"
             onChange={handleInput}
@@ -117,17 +122,17 @@ const HEXInput: React.FC = () => {
             // value={value ? value : null}
           />
         </div>
-        {color ? 
+        {/* {color ? 
         <Button onClick={handleClick}
         // className={isActive ? "visible" : "hidden"}
         >
           {!color ? "Find" : "Find again"}
         </Button>
           : null  
-          }
-        <div className="mt-6 h-16">
+          } */}
+        <div>
           {color && (
-            <ColorBlock>
+            <ColorBlock blockColor={ColorBlockColor}>
               <h2>Color Name:</h2>
               {color}
             </ColorBlock>
