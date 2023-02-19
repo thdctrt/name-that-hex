@@ -13,16 +13,38 @@ const Container = styled.div`
   gap: 40px;
 `;
 
-const ColorBlock = styled.div<{blockColor: string | null}>`
-background: ${props => props.blockColor || "white"};
-color: ${props => tinycolor(props.blockColor || "white").isLight() == true ? "black " : "white" }; 
+const ColorBlock = styled.div<{ blockColor: string | null }>`
+  background: ${(props) => props.blockColor || "white"};
+  color: ${(props) =>
+    tinycolor(props.blockColor || "white").isLight() == true
+      ? "black "
+      : "white"};
+  font-family: "JetBrains Mono", monospace;
+  width: 1056px;
+  border-radius: 100%;
+  padding: 80px;
+  text-align: center;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+
+  p {
+    font-size: 48px;
+    line-height: 100%;
+  }
+
+  p.result {
+  font-size: 96px;
+  line-height: 100%;
+  padding-top: 24px;
+  }
 `;
 
-const Button = styled.button<{isShown: string | null}>`
-visibility: ${props => props.isShown || "visible"};;
+const Button = styled.button<{ isShown: string | null }>`
+  visibility: ${(props) => props.isShown || "visible"}; ;
 `;
 
-const Field=styled.div`
+const Field = styled.div`
   display: flex;
   flex-direction: row;
   gap: 72px;
@@ -31,19 +53,29 @@ const Field=styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1NiIgaGVpZ2h0PSIyODAiIHZpZXdCb3g9IjAgMCAxMDU2IDI4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMwLjg5OTQgOTkuNDE2TDE1Ni4zMDkgMTcuNDE2QzE2NS42MzcgMTEuMzE3MiAxNzYuODY3IDguMDAwMDMgMTg4LjQ0IDguMDAwMDNMODY3LjU2IDhDODc5LjEzMyA4IDg5MC4zNjMgMTEuMzE3MiA4OTkuNjkxIDE3LjQxNkwxMDI1LjEgOTkuNDE1OUMxMDU1LjYzIDExOS4zOCAxMDU1LjYzIDE2MC42MiAxMDI1LjEgMTgwLjU4NEw4OTkuNjkxIDI2Mi41ODRDODkwLjM2MyAyNjguNjgzIDg3OS4xMzMgMjcyIDg2Ny41NiAyNzJMMTg4LjQ0IDI3MkMxNzYuODY3IDI3MiAxNjUuNjM3IDI2OC42ODMgMTU2LjMwOSAyNjIuNTg0TDMwLjg5OTQgMTgwLjU4NEMwLjM2Njg1NyAxNjAuNjIgMC4zNjY4NTggMTE5LjM4IDMwLjg5OTQgOTkuNDE2WiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMTYiLz4KPC9zdmc+Cg==) no-repeat;
+  padding-left: 108px;
+  background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1NiIgaGVpZ2h0PSIyODAiIHZpZXdCb3g9IjAgMCAxMDU2IDI4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMwLjg5OTQgOTkuNDE2TDE1Ni4zMDkgMTcuNDE2QzE2NS42MzcgMTEuMzE3MiAxNzYuODY3IDguMDAwMDMgMTg4LjQ0IDguMDAwMDNMODY3LjU2IDhDODc5LjEzMyA4IDg5MC4zNjMgMTEuMzE3MiA4OTkuNjkxIDE3LjQxNkwxMDI1LjEgOTkuNDE1OUMxMDU1LjYzIDExOS4zOCAxMDU1LjYzIDE2MC42MiAxMDI1LjEgMTgwLjU4NEw4OTkuNjkxIDI2Mi41ODRDODkwLjM2MyAyNjguNjgzIDg3OS4xMzMgMjcyIDg2Ny41NiAyNzJMMTg4LjQ0IDI3MkMxNzYuODY3IDI3MiAxNjUuNjM3IDI2OC42ODMgMTU2LjMwOSAyNjIuNTg0TDMwLjg5OTQgMTgwLjU4NEMwLjM2Njg1NyAxNjAuNjIgMC4zNjY4NTggMTE5LjM4IDMwLjg5OTQgOTkuNDE2WiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMTYiLz4KPC9zdmc+Cg==)
+    no-repeat;
 
-  & input:not(:focus):not(:placeholder-shown):invalid {
+  //TODO: validate on pressing Enter, not only on Focus
+  /* & input:not(:focus):not(:placeholder-shown):invalid {
     color: red;
   }
   & input:not(:focus):not(:placeholder-shown):invalid ~ img{
     opacity: 0.2;
     filter: blur(1px);
+  } */
+  & input:invalid {
+    color: red;
   }
-`
+  & input:invalid ~ img {
+    opacity: 0.2;
+    filter: blur(1px);
+  }
+`;
 
-const Input=styled.input`
-  font-family: 'JetBrains Mono', monospace;
+const Input = styled.input`
+  font-family: "JetBrains Mono", monospace;
   position: relative;
   width: 480px;
   font-style: normal;
@@ -57,30 +89,42 @@ const Input=styled.input`
   border: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
-
 `;
 
-
-const EnterIcon=styled(Image)`
-    background-color: #eee;
-    border-radius: 3px;
-    border: 1px solid #b4b4b4;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
-    color: #333;
-    display: inline-block;
-    font-size: 0.85em;
-    font-weight: 700;
-    line-height: 1;
-    padding: 2px 4px;
-    white-space: nowrap;
+const EnterHint = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  font-family: "JetBrains Mono", monospace;
+  font-style: normal;
+  font-weight: 200;
+  font-size: 16px;
+  line-height: 100%;
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid #b4b4b4;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+    0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+  color: #333;
+  padding: 4px;
+  white-space: nowrap;
 `;
+
+const EnterIcon = styled(Image)``;
 
 const HEXInput: React.FC = () => {
-  const [value, setValue] = React.useState<string>(`${typeof window !== "undefined" && localStorage.getItem("hex-hex") ? localStorage.getItem("hex-hex") : ""}`);
+  const [value, setValue] = React.useState<string>(
+    `${
+      typeof window !== "undefined" && localStorage.getItem("hex-hex")
+        ? localStorage.getItem("hex-hex")
+        : ""
+    }`
+  );
   const [prompt, setPrompt] = React.useState<string>("");
   const [color, setColor] = React.useState<string>("");
-  const [isStatus, setIsStatus] = useState(false)
-
+  const [isStatus, setIsStatus] = useState(false);
 
   const handleInput = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,8 +144,8 @@ const HEXInput: React.FC = () => {
         setPrompt(value);
         localStorage.setItem("hex-hex", value);
         setIsStatus(false);
-        setColor("Loading...");
-        console.log(color);
+        setColor("...");
+        // console.log(color);
         const response = await fetch("/api/openai", {
           method: "POST",
           headers: {
@@ -112,7 +156,7 @@ const HEXInput: React.FC = () => {
         if (response) {
           setIsStatus(true);
           // console.log(isStatus);
-      };
+        }
 
         const data = await response.json();
         setColor(`${data.result.choices[0].text}`);
@@ -122,11 +166,10 @@ const HEXInput: React.FC = () => {
   );
 
   useEffect(() => {
-    typeof window !== "undefined" 
-      ? ColorBlockColor = localStorage.getItem("hex-hex")
-      : ColorBlockColor = "transparent"
-    });
-     
+    typeof window !== "undefined"
+      ? (ColorBlockColor = localStorage.getItem("hex-hex"))
+      : (ColorBlockColor = "transparent");
+  });
 
   const handleClick = useCallback(async () => {
     if (localStorage.getItem("hex-hex")) {
@@ -134,7 +177,7 @@ const HEXInput: React.FC = () => {
       let value = localStorage.getItem("hex-hex") || "undefined";
       setPrompt(value);
       console.log("got " + value + " from local storage");
-      setColor("Loading...");
+      setColor("...");
       const response = await fetch("/api/openai", {
         method: "POST",
         headers: {
@@ -150,8 +193,7 @@ const HEXInput: React.FC = () => {
       //scenario 2 - no local storage but value in input
     } else if (value && localStorage.getItem("hex-hex")) {
       localStorage.setItem("hex-hex", value);
-      console.log('dealed with that shit');
-    //scenario 2.5
+      //scenario 2.5
     } else if (value) {
       localStorage.setItem("hex-hex", value);
       setPrompt(value);
@@ -175,45 +217,43 @@ const HEXInput: React.FC = () => {
 
   return (
     <Container>
-    <Field>
-      <Input
-        aria-label="Enter your HEX"
-        onChange={handleInput}
-        onKeyDown={handleKeyDown}
-        type="text"
-        name="description"
-        defaultValue={value}
-        placeholder="#URHEX→"
-        pattern="#(?:[A-Fa-f0-9]{3}){1,2}\b"
-      />
-    <EnterIcon
-      priority
-      src="/assets/enter.svg"
-      alt="Enter icon"
-      height={96}
-      width={96}
-    />
-  </Field>
+      <Field>
+        <Input
+          aria-label="Enter your HEX"
+          onChange={handleInput}
+          onKeyDown={handleKeyDown}
+          type="text"
+          name="description"
+          defaultValue={value}
+          placeholder="#URHEX↓"
+          pattern="#(?:[A-Fa-f0-9]{3}){1,2}\b"
+        />
+        <EnterHint>
+          <EnterIcon
+            priority
+            src="/assets/enter.svg"
+            alt="Enter icon"
+            height={32}
+            width={32}
+          />
+          <span>Return</span>
+        </EnterHint>
+      </Field>
       {color && (
         <ColorBlock blockColor={ColorBlockColor}>
-          <h2>Color Name:</h2>
-          {color}
+          <p>Let's says it's</p>
+          <p className="result">{color}</p>
         </ColorBlock>
       )}
 
-      {color ? 
-      <Button
-        onClick={handleClick}
-        isShown={value && isStatus==true ? "visible" : "hidden"}    
-      >
-      {!color
-        ? "Find"
-        : "Find again" 
-      }
-      </Button>
-      : null  
-      }
-
+      {color ? (
+        <Button
+          onClick={handleClick}
+          isShown={value && isStatus == true ? "visible" : "hidden"}
+        >
+          {!color ? "Find" : "Find again"}
+        </Button>
+      ) : null}
     </Container>
   );
 };
