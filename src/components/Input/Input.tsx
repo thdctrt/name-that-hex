@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import tinycolor from "tinycolor2";
 import styled from "styled-components";
 import Image from "next/image";
 
@@ -13,7 +14,8 @@ const Container = styled.div`
 `;
 
 const ColorBlock = styled.div<{blockColor: string | null}>`
-background: ${props => props.blockColor || "palevioletred"};
+background: ${props => props.blockColor || "white"};
+color:${props => tinycolor(props.blockColor || "white").isLight() == true ? "black " : "white" }; 
 `;
 
 const Button = styled.button<{isShown: string | null}>`
@@ -30,6 +32,14 @@ const Field=styled.div`
   align-items: center;
   box-sizing: border-box;
   background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1NiIgaGVpZ2h0PSIyODAiIHZpZXdCb3g9IjAgMCAxMDU2IDI4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMwLjg5OTQgOTkuNDE2TDE1Ni4zMDkgMTcuNDE2QzE2NS42MzcgMTEuMzE3MiAxNzYuODY3IDguMDAwMDMgMTg4LjQ0IDguMDAwMDNMODY3LjU2IDhDODc5LjEzMyA4IDg5MC4zNjMgMTEuMzE3MiA4OTkuNjkxIDE3LjQxNkwxMDI1LjEgOTkuNDE1OUMxMDU1LjYzIDExOS4zOCAxMDU1LjYzIDE2MC42MiAxMDI1LjEgMTgwLjU4NEw4OTkuNjkxIDI2Mi41ODRDODkwLjM2MyAyNjguNjgzIDg3OS4xMzMgMjcyIDg2Ny41NiAyNzJMMTg4LjQ0IDI3MkMxNzYuODY3IDI3MiAxNjUuNjM3IDI2OC42ODMgMTU2LjMwOSAyNjIuNTg0TDMwLjg5OTQgMTgwLjU4NEMwLjM2Njg1NyAxNjAuNjIgMC4zNjY4NTggMTE5LjM4IDMwLjg5OTQgOTkuNDE2WiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMTYiLz4KPC9zdmc+Cg==) no-repeat;
+
+  & input:not(:focus):not(:placeholder-shown):invalid {
+    color: red;
+  }
+  & input:not(:focus):not(:placeholder-shown):invalid ~ img{
+    opacity: 0.2;
+    filter: blur(1px);
+  }
 `
 
 const Input=styled.input`
@@ -47,6 +57,7 @@ const Input=styled.input`
   border: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
+
 `;
 
 
@@ -73,10 +84,12 @@ const HEXInput: React.FC = () => {
 
   const handleInput = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      //TODO: add hash if no hash in value
+      // {e.target.value.match(/#/)? console.log("with") : console.log("without") }
       setValue(e.target.value);
-      console.log(e.target.value);
+      // console.log(e.target.value);
       setIsStatus(false);
-      console.log(isStatus);
+      // console.log(isStatus);
     },
     []
   );
@@ -98,7 +111,7 @@ const HEXInput: React.FC = () => {
         });
         if (response) {
           setIsStatus(true);
-          console.log(isStatus);
+          // console.log(isStatus);
       };
 
         const data = await response.json();
@@ -171,6 +184,7 @@ const HEXInput: React.FC = () => {
         name="description"
         defaultValue={value}
         placeholder="#URHEX→"
+        pattern="#(?:[A-Fa-f0-9]{3}){1,2}\b"
       />
     <EnterIcon
       priority
