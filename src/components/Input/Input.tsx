@@ -11,6 +11,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
+  align-items: center;
+  padding-top: 80px;
 `;
 
 const ColorBlock = styled.div<{ blockColor: string | null }>`
@@ -33,15 +35,64 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
     line-height: 100%;
   }
 
-  p.result {
-  font-size: 96px;
-  line-height: 100%;
-  padding-top: 24px;
+  .result {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 16px;
+    align-items: center;
+    padding-top: 24px;
+    justify-content: center;
+  }
+
+  .svg-icon {
+    filter: invert(
+      ${(props) =>
+        tinycolor(props.blockColor || "1").isLight() == true ? "0" : "1"}
+    );
+  }
+
+  .result__text {
+    font-size: 96px;
+    line-height: 100%;
   }
 `;
 
-const Button = styled.button<{ isShown: string | null }>`
-  visibility: ${(props) => props.isShown || "visible"}; ;
+const Button = styled.button<{
+  isShown: string | null;
+  buttonColor: string | null;
+}>`
+  visibility: ${(props) => props.isShown || "visible"};
+  width: 400px;
+  height: 200px;
+  border: 0;
+  transform: skew(-20deg);
+  background: ${(props) =>
+    tinycolor(props.buttonColor || "white")
+      .complement()
+      .toHexString() != "#ffffff" &&
+    tinycolor(props.buttonColor || "white")
+      .complement()
+      .toHexString() != "#000000"
+      ? tinycolor(props.buttonColor || "white")
+          .complement()
+          .toHexString()
+      : "#FC5A50"};
+  font-family: "JetBrains Mono", monospace;
+  text-align: center;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  font-size: 48px;
+  color: ${(props) =>
+    tinycolor(props.buttonColor || "white").isLight() == true
+      ? "black "
+      : "white"};
+`;
+
+const CopyButton = styled.button`
+  background: none;
+  border: 0;
 `;
 
 const Field = styled.div`
@@ -125,6 +176,15 @@ const HEXInput: React.FC = () => {
   const [prompt, setPrompt] = React.useState<string>("");
   const [color, setColor] = React.useState<string>("");
   const [isStatus, setIsStatus] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(color);
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 5000);
+  };
 
   const handleInput = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -215,6 +275,9 @@ const HEXInput: React.FC = () => {
     }
   }, []);
 
+  //testing tinycolor compelement func
+  // console.log('compement color is ' + tinycolor(value).complement().toHexString());
+
   return (
     <Container>
       <Field>
@@ -230,7 +293,6 @@ const HEXInput: React.FC = () => {
         />
         <EnterHint>
           <EnterIcon
-            priority
             src="/assets/enter.svg"
             alt="Enter icon"
             height={32}
@@ -240,16 +302,36 @@ const HEXInput: React.FC = () => {
         </EnterHint>
       </Field>
       {color && (
-        <ColorBlock blockColor={ColorBlockColor}>
-          <p>Let's says it's</p>
-          <p className="result">{color}</p>
-        </ColorBlock>
+        <>
+          <ColorBlock blockColor={ColorBlockColor}>
+            <>
+              <p>Let's call it</p>
+              <div className="result">
+                <p className="result__text">{color}</p>
+                {color != "..." ? (
+                  <CopyButton onClick={handleCopy}>
+                    <Image
+                      src={
+                        isCopied ? "/assets/copy-done.svg" : "/assets/copy.svg"
+                      }
+                      alt="Enter icon"
+                      height={32}
+                      width={32}
+                      className="svg-icon"
+                    />
+                  </CopyButton>
+                ) : null}
+              </div>
+            </>
+          </ColorBlock>
+        </>
       )}
 
       {color ? (
         <Button
           onClick={handleClick}
           isShown={value && isStatus == true ? "visible" : "hidden"}
+          buttonColor={ColorBlockColor}
         >
           {!color ? "Find" : "Find again"}
         </Button>
