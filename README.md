@@ -2,7 +2,7 @@
 
 ### Specific yet funny app to get a name for the color based on OpenAI API
 
-### [Demo] (https://namethathex.vercel.app)
+### [Demo](https://namethathex.vercel.app)
 
 Sometimes you need a specific name for the color. For example, if you have a lot of `Blue` colors in project and you need to differentiate them. 
 
