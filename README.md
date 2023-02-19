@@ -1,38 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Name that HEX!
 
-## Getting Started
+### Specific yet funny app to get a name for the color based on OpenAI API
 
-First, run the development server:
+## [Demo] (https://namethathex.vercel.app)
 
+Sometimes you need a specific name for the color. For example, if you have a lot of `Blue` colors in project and you need to differentiate them. 
+
+*Name that HEX!* relieves you of the task of inventing a creative and understandable name — it uses `da-vinci` Text AI by OpenAI and comes up with a name for every custom color you need to name. Colors already preformatted in CamelCase so you will be able to seamlessy use them in Figma and JS code both.
+
+## Run Locally
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+pnpm i
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Thanks to
+- [@mustafa-turk](https://github.com/mustafa-turk/where-next) for button apporoach inspiratino
+- [@masonyekta](https://github.com/masonyekta/nextjs-openai-text-to-color) for API inspiration and stuff
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Works on [Next.js](https://nextjs.org/), uses [styled-components] (https://github.com/styled-components/styled-components) for styling and TinyColor Library (https://github.com/bgrins/TinyColor) for some functions.

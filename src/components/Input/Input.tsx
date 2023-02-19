@@ -15,7 +15,7 @@ const Container = styled.div`
 
 const ColorBlock = styled.div<{blockColor: string | null}>`
 background: ${props => props.blockColor || "white"};
-color:${props => tinycolor(props.blockColor || "white").isLight() == true ? "black " : "white" }; 
+color: ${props => tinycolor(props.blockColor || "white").isLight() == true ? "black " : "white" }; 
 `;
 
 const Button = styled.button<{isShown: string | null}>`
