@@ -273,7 +273,7 @@ const HEXInput: React.FC = () => {
     } else {
       alert("no value");
     }
-  }, []);
+  }, [value]);
 
   //testing tinycolor compelement func
   // console.log('compement color is ' + tinycolor(value).complement().toHexString());
@@ -305,7 +305,7 @@ const HEXInput: React.FC = () => {
         <>
           <ColorBlock blockColor={ColorBlockColor}>
             <>
-              <p>Let's call it</p>
+              <p>Let&apos;s call it</p>
               <div className="result">
                 <p className="result__text">{color}</p>
                 {color != "..." ? (
