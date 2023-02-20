@@ -5,6 +5,10 @@ import Image from "next/image";
 
 const AboutContainer = styled.div`
   max-width: 560px;
+
+  @media screen and (max-width: 480px) {
+    max-width: calc(100% - 16px);
+  }
 `;
 const Description = styled.div`
   font-family: "JetBrains Mono", monospace;
@@ -20,6 +24,11 @@ const Description = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+
+  @media screen and (max-width: 480px) {
+    padding: 24px;
+    border-radius: 24px;
+  }
 
   p:first-child,
   span.strong {
@@ -54,7 +63,7 @@ const GitLink = styled.a`
   gap: 8px;
   align-items: center;
   transition: all 0.5s ease-in-out;
-  
+
   &:hover {
     opacity: 0.5;
     transition: all 0.5s ease-in-out;

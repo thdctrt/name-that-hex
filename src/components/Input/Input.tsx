@@ -13,6 +13,12 @@ const Container = styled.div`
   gap: 40px;
   align-items: center;
   padding-top: 80px;
+  width: 100%;
+
+  @media screen and (max-width: 480px) {
+    padding-top: 24px;
+    gap: 24px;
+  }
 `;
 
 const ColorBlock = styled.div<{ blockColor: string | null }>`
@@ -56,6 +62,18 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
     font-size: 96px;
     line-height: 100%;
   }
+
+  @media screen and (max-width: 480px) {
+    width: calc(100% + 32px);
+
+    p {
+      font-size: 32px;
+    }
+
+    .result__text {
+      font-size: 48px;
+    }
+  }
 `;
 
 const Button = styled.button<{
@@ -88,6 +106,12 @@ const Button = styled.button<{
     tinycolor(props.buttonColor || "white").isLight() == true
       ? "black "
       : "white"};
+
+  @media screen and (max-width: 480px) {
+    font-size: 32px;
+    height: 120px;
+    width: 100%;
+  }
 `;
 
 const CopyButton = styled.button`
@@ -105,6 +129,7 @@ const Field = styled.div`
   align-items: center;
   box-sizing: border-box;
   padding-left: 108px;
+  padding-right: 0;
   background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1NiIgaGVpZ2h0PSIyODAiIHZpZXdCb3g9IjAgMCAxMDU2IDI4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMwLjg5OTQgOTkuNDE2TDE1Ni4zMDkgMTcuNDE2QzE2NS42MzcgMTEuMzE3MiAxNzYuODY3IDguMDAwMDMgMTg4LjQ0IDguMDAwMDNMODY3LjU2IDhDODc5LjEzMyA4IDg5MC4zNjMgMTEuMzE3MiA4OTkuNjkxIDE3LjQxNkwxMDI1LjEgOTkuNDE1OUMxMDU1LjYzIDExOS4zOCAxMDU1LjYzIDE2MC42MiAxMDI1LjEgMTgwLjU4NEw4OTkuNjkxIDI2Mi41ODRDODkwLjM2MyAyNjguNjgzIDg3OS4xMzMgMjcyIDg2Ny41NiAyNzJMMTg4LjQ0IDI3MkMxNzYuODY3IDI3MiAxNjUuNjM3IDI2OC42ODMgMTU2LjMwOSAyNjIuNTg0TDMwLjg5OTQgMTgwLjU4NEMwLjM2Njg1NyAxNjAuNjIgMC4zNjY4NTggMTE5LjM4IDMwLjg5OTQgOTkuNDE2WiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMTYiLz4KPC9zdmc+Cg==)
     no-repeat;
 
@@ -123,6 +148,15 @@ const Field = styled.div`
     opacity: 0.2;
     filter: blur(1px);
   }
+
+  @media screen and (max-width: 480px) {
+    width: calc(100% - 32px);
+    height: 100px;
+    background: none;
+    border: 2px solid #000000;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 `;
 
 const Input = styled.input`
@@ -140,6 +174,11 @@ const Input = styled.input`
   border: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
+
+  @media screen and (max-width: 480px) {
+    font-size: 32px;
+    width: 160px;
+  }
 `;
 
 const EnterHint = styled.div`
