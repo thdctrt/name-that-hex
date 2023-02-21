@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import tinycolor from "tinycolor2";
 import styled from "styled-components";
 import Image from "next/image";
+import Draggable from "react-draggable";
 
 var ColorBlockColor: string | null;
 
@@ -35,6 +36,10 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
   font-style: normal;
   font-weight: 800;
   letter-spacing: 0.1em;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
 
   p {
     font-size: 48px;
@@ -81,10 +86,12 @@ const Button = styled.button<{
   buttonColor: string | null;
 }>`
   visibility: ${(props) => props.isShown || "visible"};
-  width: 400px;
-  height: 200px;
+  width: 320px;
+  height: 80px;
   border: 0;
   transform: skew(-20deg);
+  border-radius: 8px;
+  margin-top: 40px;
   background: ${(props) =>
     tinycolor(props.buttonColor || "white")
       .complement()
@@ -100,12 +107,43 @@ const Button = styled.button<{
   text-align: center;
   font-style: normal;
   font-weight: 800;
+  transition: transform 0.2s ease-in-out;
   letter-spacing: 0.1em;
-  font-size: 48px;
+  font-size: 32px;
   color: ${(props) =>
     tinycolor(props.buttonColor || "white").isLight() == true
       ? "black "
       : "white"};
+
+  &:hover {
+    filter: hue-rotate(90deg);
+    animation: changeColors 2s ease-out infinite;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    transform: scale(0.98) skew(-30deg);
+  }
+
+  @keyframes changeColors {
+    0% {
+      filter: hue-rotate(0deg);
+    }
+
+    25% {
+      filter: hue-rotate(90deg);
+    }
+
+    50% {
+      filter: hue-rotate(180deg);
+    }
+
+    75% {
+      filter: hue-rotate(270deg);
+    }
+
+    100% {
+      filter: hue-rotate(360deg);
+    }
+  }
 
   @media screen and (max-width: 480px) {
     font-size: 32px;
@@ -227,12 +265,15 @@ const HEXInput: React.FC = () => {
 
   const handleInput = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      //TODO: add hash if no hash in value
-      // {e.target.value.match(/#/)? console.log("with") : console.log("without") }
-      setValue(e.target.value);
-      // console.log(e.target.value);
-      setIsStatus(false);
-      // console.log(isStatus);
+      if (e.target.value.match("#")) {
+        // console.log("with");
+        setValue(e.target.value);
+        setIsStatus(false);
+      } else {
+        // console.log("without");
+        setValue("#" + e.target.value);
+        setIsStatus(false);
+      }
     },
     []
   );
@@ -244,7 +285,7 @@ const HEXInput: React.FC = () => {
         localStorage.setItem("hex-hex", value);
         setIsStatus(false);
         setColor("...");
-        // console.log(color);
+        console.log("send value " + value);
         const response = await fetch("/api/openai", {
           method: "POST",
           headers: {
@@ -319,62 +360,69 @@ const HEXInput: React.FC = () => {
 
   return (
     <Container>
-      <Field>
-        <Input
-          aria-label="Enter your HEX"
-          onChange={handleInput}
-          onKeyDown={handleKeyDown}
-          type="text"
-          name="description"
-          defaultValue={value}
-          placeholder="#URHEX↓"
-          pattern="#(?:[A-Fa-f0-9]{3}){1,2}\b"
-        />
-        <EnterHint>
-          <EnterIcon
-            src="/assets/enter.svg"
-            alt="Enter icon"
-            height={32}
-            width={32}
+      <Draggable>
+        <Field>
+          <Input
+            aria-label="Enter your HEX"
+            onChange={handleInput}
+            onKeyDown={handleKeyDown}
+            type="text"
+            name="description"
+            defaultValue={value}
+            placeholder="#URHEX↓"
+            pattern="#(?:[A-Fa-f0-9]{3}){1,2}\b"
           />
-          <span>Return</span>
-        </EnterHint>
-      </Field>
+          <EnterHint>
+            <EnterIcon
+              src="/assets/enter.svg"
+              alt="Enter icon"
+              height={32}
+              width={32}
+            />
+            <span>Return</span>
+          </EnterHint>
+        </Field>
+      </Draggable>
       {color && (
         <>
-          <ColorBlock blockColor={ColorBlockColor}>
-            <>
-              <p>Let&apos;s call it</p>
-              <div className="result">
-                <p className="result__text">{color}</p>
-                {color != "..." ? (
-                  <CopyButton onClick={handleCopy}>
-                    <Image
-                      src={
-                        isCopied ? "/assets/copy-done.svg" : "/assets/copy.svg"
-                      }
-                      alt="Enter icon"
-                      height={32}
-                      width={32}
-                      className="svg-icon"
-                    />
-                  </CopyButton>
+          <Draggable>
+            <ColorBlock blockColor={ColorBlockColor}>
+              <>
+                <p>Let&apos;s call it</p>
+                <div className="result">
+                  <p className="result__text">{color}</p>
+                  {color != "..." ? (
+                    <>
+                    <CopyButton onClick={handleCopy}>
+                      <Image
+                        src={
+                          isCopied
+                            ? "/assets/copy-done.svg"
+                            : "/assets/copy.svg"
+                        }
+                        alt="Enter icon"
+                        height={32}
+                        width={32}
+                        className="svg-icon"
+                      />
+                    </CopyButton>
+                    </>
+                  ) : null}
+                </div>
+                {color ? (
+                  <Button
+                    onClick={handleClick}
+                    isShown={value && isStatus == true ? "visible" : "hidden"}
+                    buttonColor={ColorBlockColor}
+                  >
+                    {!color ? "Find" : "Find again"}
+                  </Button>
                 ) : null}
-              </div>
-            </>
-          </ColorBlock>
+              </>
+            </ColorBlock>
+          </Draggable>
         </>
       )}
-
-      {color ? (
-        <Button
-          onClick={handleClick}
-          isShown={value && isStatus == true ? "visible" : "hidden"}
-          buttonColor={ColorBlockColor}
-        >
-          {!color ? "Find" : "Find again"}
-        </Button>
-      ) : null}
     </Container>
   );
 };

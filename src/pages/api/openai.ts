@@ -20,9 +20,5 @@ export default async function handler(
     frequency_penalty: 0,
     presence_penalty: 0,
   });
-
-  console.log(req.body.text);
   res.status(200).json({ result: response.data });
-  // res.status(200).json({ name: 'John Doe' })
-
 }

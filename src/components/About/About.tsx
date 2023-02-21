@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Balancer from "react-wrap-balancer";
 import Image from "next/image";
+import Draggable from "react-draggable";
 
 const AboutContainer = styled.div`
   max-width: 560px;
@@ -72,6 +73,7 @@ const GitLink = styled.a`
 
 export default function About() {
   return (
+    <Draggable>
     <AboutContainer>
       <Description>
         <p>
@@ -113,5 +115,6 @@ export default function About() {
         </GitLink>
       </Description>
     </AboutContainer>
+    </Draggable>
   );
 }
