@@ -19,4 +19,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [@mustafa-turk](https://github.com/mustafa-turk/where-next) for button apporoach inspiration
 - [@masonyekta](https://github.com/masonyekta/nextjs-openai-text-to-color) for API inspiration and stuff
 
-Works on [Next.js](https://nextjs.org/), uses [styled-components](https://github.com/styled-components/styled-components) for styling and [TinyColor Library](https://github.com/bgrins/TinyColor) for some funny color functions.
+Works on [Next.js](https://nextjs.org/), uses [styled-components](https://github.com/styled-components/styled-components) for styling, [TinyColor Library](https://github.com/bgrins/TinyColor) for some funny color functions.
