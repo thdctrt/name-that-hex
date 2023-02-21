@@ -21,6 +21,13 @@ a {
   text-decoration: none;
 }
 
-input:focus, textarea:focus, select:focus{
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
+}
+
+.react-draggable,
+.cursor {
+  cursor: move;
 }

@@ -10,6 +10,9 @@ interface CopyButtonProps {
 const Copy = styled.button`
   background: none;
   border: 0;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const CopyButton: React.FC<CopyButtonProps> = ({ onClick, changeBy }) => {
