@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import tinycolor from "tinycolor2";
 import styled from "styled-components";
 import Image from "next/image";
@@ -358,10 +358,12 @@ const HEXInput: React.FC = () => {
   //testing tinycolor compelement func
   // console.log('compement color is ' + tinycolor(value).complement().toHexString());
 
+  const nodeRef = React.useRef(null);
+
   return (
     <Container>
-      <Draggable>
-        <Field>
+      <Draggable nodeRef={nodeRef}>
+        <Field ref={nodeRef}>
           <Input
             aria-label="Enter your HEX"
             onChange={handleInput}
@@ -385,8 +387,8 @@ const HEXInput: React.FC = () => {
       </Draggable>
       {color && (
         <>
-          <Draggable>
-            <ColorBlock blockColor={ColorBlockColor}>
+          <Draggable nodeRef={nodeRef}>
+            <ColorBlock blockColor={ColorBlockColor} ref={nodeRef}>
               <>
                 <p>Let&apos;s call it</p>
                 <div className="result">

@@ -72,9 +72,12 @@ const GitLink = styled.a`
 `;
 
 export default function About() {
+
+  const nodeRef = React.useRef(null);
+
   return (
-    <Draggable>
-    <AboutContainer>
+    <Draggable nodeRef={nodeRef}>
+    <AboutContainer ref={nodeRef}>
       <Description>
         <p>
           Need a catchy name for the color and tired of&nbsp;LightBlue,
