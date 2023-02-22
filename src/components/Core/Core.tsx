@@ -8,6 +8,7 @@ import EnterButton from "../EnterButton/EnterButton";
 import EnterHint from "../EnterHint/EnterHint";
 import CopyButton from "../CopyButton/CopyButton";
 import Input from "../Input/Input";
+import RadioGroup from "../RadioGroup/RadioGroup";
 
 var ColorBlockColor: string | null;
 
@@ -60,7 +61,7 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
   .result {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 16px;
     align-items: center;
     padding-top: 24px;
@@ -83,6 +84,7 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
   .result__text {
     font-size: 96px;
     line-height: 100%;
+    overflow-wrap: break-word;
 
     @media screen and (max-width: 480px) {
       font-size: 32px;
@@ -149,7 +151,6 @@ const Button = styled.button<{
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
     transform: scale(0.98) skew(-30deg);
-
   }
 
   @keyframes changeColors {
@@ -179,7 +180,6 @@ const Button = styled.button<{
     height: 64px;
     width: 100%;
     margin-top: 16px;
-
   }
 `;
 
@@ -246,6 +246,15 @@ const HEXInput: React.FC = () => {
   const [color, setColor] = React.useState<string>("");
   const [isStatus, setIsStatus] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [theme, setTheme] = React.useState("alchemy");
+
+  const handleChange = (event) => {
+    setTheme(event.target.value);
+  };
+
+  const resetRadioState = () => {
+    setTheme("Alchemy");
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(color);
@@ -278,23 +287,23 @@ const HEXInput: React.FC = () => {
         setIsStatus(false);
         setColor("...");
         console.log("send value " + value);
+        console.log("send theme " + theme);
         const response = await fetch("/api/openai", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ text: value }),
+          body: JSON.stringify({ text: value, themeValue: theme }),
         });
         if (response) {
           setIsStatus(true);
-          // console.log(isStatus);
         }
 
         const data = await response.json();
         setColor(`${data.result.choices[0].text}`);
       }
     },
-    [value]
+    [value, theme]
   );
 
   const handleButton = React.useCallback(async () => {
@@ -303,12 +312,13 @@ const HEXInput: React.FC = () => {
     setIsStatus(false);
     setColor("...");
     console.log("send value " + value);
+    console.log("send theme " + theme);
     const response = await fetch("/api/openai", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: value }),
+      body: JSON.stringify({ text: value, themeValue: theme }),
     });
     if (response) {
       setIsStatus(true);
@@ -316,7 +326,7 @@ const HEXInput: React.FC = () => {
     }
     const data = await response.json();
     setColor(`${data.result.choices[0].text}`);
-  }, [value]);
+  }, [value, theme]);
 
   useEffect(() => {
     typeof window !== "undefined"
@@ -380,6 +390,44 @@ const HEXInput: React.FC = () => {
             onKeyDown={handleKeyDown}
             defaultValue={value}
           />
+
+          {/* radio test */}
+          <form>
+            <div>
+              <input
+                type="radio"
+                value="alchemy"
+                checked={theme === "alchemy"}
+                onChange={handleChange}
+              />
+              Alchemy
+            </div>
+            <div>
+              <input
+                type="radio"
+                value="famous musicicians and bands"
+                checked={theme === "famous musicicians and bands"}
+                onChange={handleChange}
+              />
+              Music
+            </div>
+            <div>
+              <input
+                type="radio"
+                value="food"
+                checked={theme === "food"}
+                onChange={handleChange}
+              />
+              Food
+            </div>
+            <button type="reset" onClick={resetRadioState}>
+              reset
+            </button>
+          </form>
+
+          {/* radio test end */}
+
+          {/* <RadioGroup onOptionChange={onOptionChange} theme={theme} /> */}
           <EnterGroup>
             <EnterButton onClick={handleButton} />
             <EnterHint />

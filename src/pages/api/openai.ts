@@ -10,10 +10,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log("HELLLOOOOOOO");
   const response = await openai.createCompletion({
     model: "text-davinci-003",
     // model: "text-curie-001",
-    prompt: `name for the color ${req.body.text} in camel case`,
+    prompt: `name for the color ${req.body.text} in ${req.body.themeValue} theme in camel case`,
     temperature: 0.7,
     max_tokens: 256,
     top_p: 1,
