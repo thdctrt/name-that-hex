@@ -26,6 +26,11 @@ const Container = styled.div`
   }
 `;
 
+const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const ColorBlock = styled.div<{ blockColor: string | null }>`
   background: ${(props) => props.blockColor || "#ababab"};
   color: ${(props) =>
@@ -85,13 +90,20 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
     font-size: 96px;
     line-height: 100%;
     overflow-wrap: break-word;
+    width: calc(1056px - 32px);
 
     @media screen and (max-width: 480px) {
       font-size: 32px;
+      width: calc(100% + 32px);
     }
 
     @media screen and (min-width: 481px) and (max-width: 768px) {
       font-size: 64px;
+      width: calc(100% - 16px);
+    }
+
+    @media screen and (min-width: 769px) and (max-width: 1112px) {
+      width: 800px;
     }
   }
 
@@ -203,7 +215,8 @@ const Field = styled.div`
     flex-direction: column;
     gap: 0;
     border: 2px solid #000000;
-    padding: 24px;
+    padding: 16px;
+    align-items: flex-start;
   }
 
   @media screen and (min-width: 481px) and (max-width: 768px) {
@@ -231,6 +244,14 @@ const EnterGroup = styled.div`
 
   @media (max-width: 480px) {
     margin-top: 16px;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 1023px) {
+    margin-top: 0;
   }
 `;
 
@@ -246,14 +267,14 @@ const HEXInput: React.FC = () => {
   const [color, setColor] = React.useState<string>("");
   const [isStatus, setIsStatus] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const [theme, setTheme] = React.useState("alchemy");
+  const [theme, setTheme] = React.useState("alchemy and chemistry");
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setTheme(event.target.value);
   };
 
   const resetRadioState = () => {
-    setTheme("Alchemy");
+    setTheme("alchemy and chemistry");
   };
 
   const handleCopy = () => {
@@ -385,49 +406,18 @@ const HEXInput: React.FC = () => {
       {/* TODO: specify the handle in Draggable Input since it breaks text highlighting now */}
       <Draggable nodeRef={nodeRef} disabled={true}>
         <Field ref={nodeRef}>
-          <Input
-            onChange={handleInput}
-            onKeyDown={handleKeyDown}
-            defaultValue={value}
-          />
-
-          {/* radio test */}
-          <form>
-            <div>
-              <input
-                type="radio"
-                value="alchemy"
-                checked={theme === "alchemy"}
-                onChange={handleChange}
-              />
-              Alchemy
-            </div>
-            <div>
-              <input
-                type="radio"
-                value="famous musicicians and bands"
-                checked={theme === "famous musicicians and bands"}
-                onChange={handleChange}
-              />
-              Music
-            </div>
-            <div>
-              <input
-                type="radio"
-                value="food"
-                checked={theme === "food"}
-                onChange={handleChange}
-              />
-              Food
-            </div>
-            <button type="reset" onClick={resetRadioState}>
-              reset
-            </button>
-          </form>
-
-          {/* radio test end */}
-
-          {/* <RadioGroup onOptionChange={onOptionChange} theme={theme} /> */}
+          <InputGroup>
+            <Input
+              onChange={handleInput}
+              onKeyDown={handleKeyDown}
+              defaultValue={value}
+            />
+            <RadioGroup
+              onOptionChange={handleChange}
+              theme={theme}
+              resetRadio={resetRadioState}
+            />
+          </InputGroup>
           <EnterGroup>
             <EnterButton onClick={handleButton} />
             <EnterHint />
@@ -441,7 +431,7 @@ const HEXInput: React.FC = () => {
               <>
                 <p>Let&apos;s call it</p>
                 <div className="result">
-                  <p className="result__text">{color}</p>
+                  <p className="result__text">{color.replace(/\./g, '')}</p>
                   {color != "..." ? (
                     <>
                       <CopyButton onClick={handleCopy} changeBy={isCopied} />

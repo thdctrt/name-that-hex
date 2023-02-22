@@ -15,6 +15,11 @@ const EnterOption = styled.div`
 
   @media screen and (max-width: 480px) {
     display: none;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: auto;
+    align-items: flex-start;
+    gap: 2px;
   }
 `;
 
