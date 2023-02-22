@@ -22,6 +22,7 @@ const InputField = styled.input`
   border: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
+  background: none;
 
   @media screen and (min-width: 481px) and (max-width: 768px) {
     font-size: 64px;
@@ -29,8 +30,9 @@ const InputField = styled.input`
   }
 
   @media screen and (max-width: 480px) {
-    font-size: 32px;
-    width: 160px;
+    font-size: 50px;
+    /* width: 160px; */
+    width: 100%;
   }
 
   //TODO: validate on pressing Enter, not only on Focus

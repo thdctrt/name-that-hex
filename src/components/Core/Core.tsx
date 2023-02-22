@@ -8,6 +8,7 @@ import EnterButton from "../EnterButton/EnterButton";
 import EnterHint from "../EnterHint/EnterHint";
 import CopyButton from "../CopyButton/CopyButton";
 import Input from "../Input/Input";
+import RadioGroup from "../RadioGroup/RadioGroup";
 
 var ColorBlockColor: string | null;
 
@@ -23,6 +24,11 @@ const Container = styled.div`
     padding-top: 24px;
     gap: 24px;
   }
+`;
+
+const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const ColorBlock = styled.div<{ blockColor: string | null }>`
@@ -60,7 +66,7 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
   .result {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 16px;
     align-items: center;
     padding-top: 24px;
@@ -83,13 +89,21 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
   .result__text {
     font-size: 96px;
     line-height: 100%;
+    overflow-wrap: break-word;
+    width: calc(1056px - 32px);
 
     @media screen and (max-width: 480px) {
       font-size: 32px;
+      width: calc(100% + 32px);
     }
 
     @media screen and (min-width: 481px) and (max-width: 768px) {
       font-size: 64px;
+      width: calc(100% - 16px);
+    }
+
+    @media screen and (min-width: 769px) and (max-width: 1112px) {
+      width: 800px;
     }
   }
 
@@ -149,7 +163,6 @@ const Button = styled.button<{
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
     transform: scale(0.98) skew(-30deg);
-
   }
 
   @keyframes changeColors {
@@ -179,7 +192,6 @@ const Button = styled.button<{
     height: 64px;
     width: 100%;
     margin-top: 16px;
-
   }
 `;
 
@@ -203,7 +215,8 @@ const Field = styled.div`
     flex-direction: column;
     gap: 0;
     border: 2px solid #000000;
-    padding: 24px;
+    padding: 16px;
+    align-items: flex-start;
   }
 
   @media screen and (min-width: 481px) and (max-width: 768px) {
@@ -231,6 +244,14 @@ const EnterGroup = styled.div`
 
   @media (max-width: 480px) {
     margin-top: 16px;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 1023px) {
+    margin-top: 0;
   }
 `;
 
@@ -246,6 +267,15 @@ const HEXInput: React.FC = () => {
   const [color, setColor] = React.useState<string>("");
   const [isStatus, setIsStatus] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [theme, setTheme] = React.useState("alchemy and chemistry");
+
+  const handleChange = (event: any) => {
+    setTheme(event.target.value);
+  };
+
+  const resetRadioState = () => {
+    setTheme("alchemy and chemistry");
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(color);
@@ -278,23 +308,23 @@ const HEXInput: React.FC = () => {
         setIsStatus(false);
         setColor("...");
         console.log("send value " + value);
+        console.log("send theme " + theme);
         const response = await fetch("/api/openai", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ text: value }),
+          body: JSON.stringify({ text: value, themeValue: theme }),
         });
         if (response) {
           setIsStatus(true);
-          // console.log(isStatus);
         }
 
         const data = await response.json();
         setColor(`${data.result.choices[0].text}`);
       }
     },
-    [value]
+    [value, theme]
   );
 
   const handleButton = React.useCallback(async () => {
@@ -303,12 +333,13 @@ const HEXInput: React.FC = () => {
     setIsStatus(false);
     setColor("...");
     console.log("send value " + value);
+    console.log("send theme " + theme);
     const response = await fetch("/api/openai", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: value }),
+      body: JSON.stringify({ text: value, themeValue: theme }),
     });
     if (response) {
       setIsStatus(true);
@@ -316,7 +347,7 @@ const HEXInput: React.FC = () => {
     }
     const data = await response.json();
     setColor(`${data.result.choices[0].text}`);
-  }, [value]);
+  }, [value, theme]);
 
   useEffect(() => {
     typeof window !== "undefined"
@@ -375,11 +406,18 @@ const HEXInput: React.FC = () => {
       {/* TODO: specify the handle in Draggable Input since it breaks text highlighting now */}
       <Draggable nodeRef={nodeRef} disabled={true}>
         <Field ref={nodeRef}>
-          <Input
-            onChange={handleInput}
-            onKeyDown={handleKeyDown}
-            defaultValue={value}
-          />
+          <InputGroup>
+            <Input
+              onChange={handleInput}
+              onKeyDown={handleKeyDown}
+              defaultValue={value}
+            />
+            <RadioGroup
+              onOptionChange={handleChange}
+              theme={theme}
+              resetRadio={resetRadioState}
+            />
+          </InputGroup>
           <EnterGroup>
             <EnterButton onClick={handleButton} />
             <EnterHint />
@@ -393,7 +431,7 @@ const HEXInput: React.FC = () => {
               <>
                 <p>Let&apos;s call it</p>
                 <div className="result">
-                  <p className="result__text">{color}</p>
+                  <p className="result__text">{color.replace(/\./g, '')}</p>
                   {color != "..." ? (
                     <>
                       <CopyButton onClick={handleCopy} changeBy={isCopied} />

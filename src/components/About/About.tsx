@@ -36,6 +36,14 @@ const Description = styled.div`
     font-weight: 600;
   }
 
+  span.new {
+    border-radius: 4px;
+    font-style: italic;
+    padding: 0 2px;
+    color: #000000;
+    background: #f4e028;
+  }
+
   p code {
     font-weight: 200;
     background: #ddd;
@@ -72,52 +80,68 @@ const GitLink = styled.a`
 `;
 
 export default function About() {
-
   const nodeRef = React.useRef(null);
 
   return (
     <Draggable nodeRef={nodeRef} disabled={true}>
-    <AboutContainer ref={nodeRef}>
-      <Description>
-        <p>
-          Need a catchy name for the color and tired of&nbsp;LightBlue,
-          LigherThanBlue, SuperLightBlue?
-        </p>
-        <p>
-          <Balancer ratio={1}>
-            <span className="strong">Name that HEX!</span> relieves you of
-            inventing a creative and understandable name — it uses{" "}
-            <code>da&#8209;vinci</code> Text AI by OpenAI and comes up with a
-            name for every custom color you need to name. Colors are already
-            preformatted in CamelCase, so you can seamlessly use them in Figma
-            and JS code both.
-          </Balancer>
-        </p>
-        <MadeBy>
-          Made using{" "}
-          <a href="https://openai.com/api/?source=name-that-hex" target="blank">
-            OpenAI API
-          </a>{" "}
-          and{" "}
-          <a href="https://nextjs.org/?source=name-that-hex" target="blank">
-            Next.js
-          </a>{" "}
-          by{" "}
-          <a href="https://tokunov.design/?source=name-that-hex" target="blank">
-            @thdctrt
-          </a>{" "}
-        </MadeBy>
-        <GitLink href="https://github.com/thdctrt/name-that-hex" target="blank">
-          <Image
-            src="/assets/github.svg"
-            width={24}
-            height={24}
-            alt="github logo"
-          />
-          Source code
-        </GitLink>
-      </Description>
-    </AboutContainer>
+      <AboutContainer ref={nodeRef}>
+        <Description>
+          <p>
+            Need a catchy name for the color and tired of&nbsp;LightBlue,
+            LigherThanBlue, SuperLightBlue?
+          </p>
+          <p>
+            <Balancer ratio={1}>
+              <span className="strong">Name that HEX!</span> relieves you of
+              inventing a creative and understandable name — it uses{" "}
+              <code>da&#8209;vinci</code> Text AI by OpenAI and comes up with a
+              name for every custom color you need to name. Colors are already
+              preformatted in CamelCase, so you can seamlessly use them in Figma
+              and JS code both.
+            </Balancer>
+          </p>
+          <p>
+            <Balancer ratio={1}>
+              <span className="new">New!</span> Now you can select a theme for a
+              colour name to make it funnier — Alchemy, Music or Food options
+              are available. Please remember that words that come from AI can sometimes
+              be very mysterious.
+            </Balancer>
+          </p>
+          <MadeBy>
+            Made using{" "}
+            <a
+              href="https://openai.com/api/?source=name-that-hex"
+              target="blank"
+            >
+              OpenAI API
+            </a>{" "}
+            and{" "}
+            <a href="https://nextjs.org/?source=name-that-hex" target="blank">
+              Next.js
+            </a>{" "}
+            by{" "}
+            <a
+              href="https://tokunov.design/?source=name-that-hex"
+              target="blank"
+            >
+              @thdctrt
+            </a>{" "}
+          </MadeBy>
+          <GitLink
+            href="https://github.com/thdctrt/name-that-hex"
+            target="blank"
+          >
+            <Image
+              src="/assets/github.svg"
+              width={24}
+              height={24}
+              alt="github logo"
+            />
+            Source code
+          </GitLink>
+        </Description>
+      </AboutContainer>
     </Draggable>
   );
 }
