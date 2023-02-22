@@ -1,5 +1,4 @@
 import { ChangeEventHandler, ChangeEvent } from "react";
-import "react-tabs/style/react-tabs.css";
 import styled from "styled-components";
 
 interface RadioProps {
