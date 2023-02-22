@@ -24,11 +24,17 @@ const ButtonView = styled.button`
   height: 40px;
   color: #000;
 
+  svg {
+    @media (max-width: 480px) {
+      transform: scale(0.8);
+    }
+
   &:hover {
     cursor: pointer;
     & > svg {
       /* opacity: 0.7; */
     }
+  }
   }
 
   &:disabled {

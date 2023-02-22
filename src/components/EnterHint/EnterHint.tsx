@@ -12,6 +12,10 @@ const EnterOption = styled.div`
   font-style: normal;
   font-weight: 200;
   font-size: 12px;
+
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
 `;
 
 const EnterKbd = styled.div`

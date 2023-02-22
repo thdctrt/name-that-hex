@@ -26,7 +26,7 @@ const Container = styled.div`
 `;
 
 const ColorBlock = styled.div<{ blockColor: string | null }>`
-  background: ${(props) => props.blockColor || "white"};
+  background: ${(props) => props.blockColor || "#ababab"};
   color: ${(props) =>
     tinycolor(props.blockColor || "white").isLight() == true
       ? "black "
@@ -47,6 +47,14 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
   p {
     font-size: 48px;
     line-height: 100%;
+
+    @media screen and (min-width: 769px) and (max-width: 1112px) {
+      font-size: 40px;
+    }
+
+    @media screen and (max-width: 480px) {
+      font-size: 16px;
+    }
   }
 
   .result {
@@ -57,6 +65,12 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
     align-items: center;
     padding-top: 24px;
     justify-content: center;
+
+    @media screen and (max-width: 480px) {
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
   }
 
   .svg-icon {
@@ -69,18 +83,29 @@ const ColorBlock = styled.div<{ blockColor: string | null }>`
   .result__text {
     font-size: 96px;
     line-height: 100%;
+
+    @media screen and (max-width: 480px) {
+      font-size: 32px;
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 768px) {
+      font-size: 64px;
+    }
   }
 
   @media screen and (max-width: 480px) {
     width: calc(100% + 32px);
+    padding: 64px;
+    border-radius: 50%;
+  }
 
-    p {
-      font-size: 32px;
-    }
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    width: calc(100% - 16px);
+    padding: 64px;
+  }
 
-    .result__text {
-      font-size: 48px;
-    }
+  @media screen and (min-width: 769px) and (max-width: 1112px) {
+    width: 900px;
   }
 `;
 
@@ -124,6 +149,7 @@ const Button = styled.button<{
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
     transform: scale(0.98) skew(-30deg);
+
   }
 
   @keyframes changeColors {
@@ -149,9 +175,11 @@ const Button = styled.button<{
   }
 
   @media screen and (max-width: 480px) {
-    font-size: 32px;
-    height: 120px;
+    font-size: 24px;
+    height: 64px;
     width: 100%;
+    margin-top: 16px;
+
   }
 `;
 
@@ -166,14 +194,29 @@ const Field = styled.div`
   box-sizing: border-box;
   background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1NiIgaGVpZ2h0PSIyODAiIHZpZXdCb3g9IjAgMCAxMDU2IDI4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMwLjg5OTQgOTkuNDE2TDE1Ni4zMDkgMTcuNDE2QzE2NS42MzcgMTEuMzE3MiAxNzYuODY3IDguMDAwMDMgMTg4LjQ0IDguMDAwMDNMODY3LjU2IDhDODc5LjEzMyA4IDg5MC4zNjMgMTEuMzE3MiA4OTkuNjkxIDE3LjQxNkwxMDI1LjEgOTkuNDE1OUMxMDU1LjYzIDExOS4zOCAxMDU1LjYzIDE2MC42MiAxMDI1LjEgMTgwLjU4NEw4OTkuNjkxIDI2Mi41ODRDODkwLjM2MyAyNjguNjgzIDg3OS4xMzMgMjcyIDg2Ny41NiAyNzJMMTg4LjQ0IDI3MkMxNzYuODY3IDI3MiAxNjUuNjM3IDI2OC42ODMgMTU2LjMwOSAyNjIuNTg0TDMwLjg5OTQgMTgwLjU4NEMwLjM2Njg1NyAxNjAuNjIgMC4zNjY4NTggMTE5LjM4IDMwLjg5OTQgOTkuNDE2WiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMTYiLz4KPC9zdmc+Cg==)
     no-repeat;
+  background-size: contain;
 
   @media screen and (max-width: 480px) {
     width: calc(100% - 32px);
-    height: 100px;
+    height: auto;
     background: none;
+    flex-direction: column;
+    gap: 0;
     border: 2px solid #000000;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding: 24px;
+  }
+
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    width: calc(100% - 16px);
+    height: 200px;
+    padding-left: 128px;
+    padding-right: 128px;
+  }
+
+  @media screen and (min-width: 769px) and (max-width: 1112px) {
+    width: 900px;
+    height: 240px;
+    background-size: contain;
   }
 `;
 
@@ -185,6 +228,10 @@ const EnterGroup = styled.div`
   align-items: start;
   width: 160px;
   margin-top: 32px;
+
+  @media (max-width: 480px) {
+    margin-top: 16px;
+  }
 `;
 
 const HEXInput: React.FC = () => {
@@ -326,7 +373,7 @@ const HEXInput: React.FC = () => {
   return (
     <Container>
       {/* TODO: specify the handle in Draggable Input since it breaks text highlighting now */}
-      <Draggable nodeRef={nodeRef}>
+      <Draggable nodeRef={nodeRef} disabled={true}>
         <Field ref={nodeRef}>
           <Input
             onChange={handleInput}
@@ -341,7 +388,7 @@ const HEXInput: React.FC = () => {
       </Draggable>
       {color && (
         <>
-          <Draggable nodeRef={nodeRef}>
+          <Draggable nodeRef={nodeRef} disabled={true}>
             <ColorBlock blockColor={ColorBlockColor} ref={nodeRef}>
               <>
                 <p>Let&apos;s call it</p>

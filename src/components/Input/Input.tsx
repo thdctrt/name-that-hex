@@ -23,6 +23,11 @@ const InputField = styled.input`
   -webkit-box-shadow: none;
   box-shadow: none;
 
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    font-size: 64px;
+    width: 320px;
+  }
+
   @media screen and (max-width: 480px) {
     font-size: 32px;
     width: 160px;

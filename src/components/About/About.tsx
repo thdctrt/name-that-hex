@@ -76,7 +76,7 @@ export default function About() {
   const nodeRef = React.useRef(null);
 
   return (
-    <Draggable nodeRef={nodeRef}>
+    <Draggable nodeRef={nodeRef} disabled={true}>
     <AboutContainer ref={nodeRef}>
       <Description>
         <p>
